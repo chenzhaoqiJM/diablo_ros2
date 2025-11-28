@@ -14,7 +14,7 @@ void diabloCtrlNode::heart_beat_loop(void){
                 pMovementCtrl->obtain_control();
                 continue;
             }
-            
+
             if(!ctrl_msg_.mode_mark){
                 pMovementCtrl->ctrl_data.forward = ctrl_msg_.value.forward;
                 pMovementCtrl->ctrl_data.left = ctrl_msg_.value.left;
@@ -23,7 +23,7 @@ void diabloCtrlNode::heart_beat_loop(void){
                 pMovementCtrl->ctrl_data.pitch = ctrl_msg_.value.pitch;
                 pMovementCtrl->ctrl_data.leg_split = ctrl_msg_.value.leg_split;
                 pMovementCtrl->SendMovementCtrlCmd();
-                
+
             }else{
                 if(ctrl_msg_.mode.stand_mode)
                     pMovementCtrl->SendTransformUpCmd();
@@ -56,7 +56,7 @@ void diabloCtrlNode::Motion_callback(const motion_msgs::msg::MotionCtrl::SharedP
     ctrl_msg_.mode = msg->mode;
     ctrl_msg_.mode_mark = msg->mode_mark;
     ctrl_msg_.value = msg->value;
-    
+
     if(!msg->mode_mark){
         pMovementCtrl->ctrl_data.forward = msg->value.forward;
         pMovementCtrl->ctrl_data.left = msg->value.left;
@@ -66,13 +66,13 @@ void diabloCtrlNode::Motion_callback(const motion_msgs::msg::MotionCtrl::SharedP
         pMovementCtrl->ctrl_data.leg_split = msg->value.leg_split;
         pMovementCtrl->SendMovementCtrlCmd();
     }else{
- 
+
         if(msg->mode.stand_mode)
             pMovementCtrl->SendTransformUpCmd();
         else{
             pMovementCtrl->SendTransformDownCmd();
         }
-        
+
         if(pTelemetry->status.robot_mode == 3){
             pMovementCtrl->SendJumpCmd(msg->mode.jump_mode);
         }
@@ -101,9 +101,9 @@ int main(int argc, char **argv)
     auto node = std::make_shared<diabloCtrlNode>("diablo_ctrl_node");
 
     DIABLO::OSDK::HAL_Pi Hal;
-    if(Hal.init("/dev/ttyS3")) return -1;
+    if(Hal.init("/dev/ttyACM0")) return -1;
 
-    DIABLO::OSDK::Vehicle vehicle(&Hal);                     
+    DIABLO::OSDK::Vehicle vehicle(&Hal);
     if(vehicle.init()) return -1;
 
     vehicle.telemetry->activate();

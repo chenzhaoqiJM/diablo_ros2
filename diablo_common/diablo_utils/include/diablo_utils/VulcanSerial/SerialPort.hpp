@@ -1,12 +1,12 @@
 //!
 //! @file 			SerialPort.hpp
-//! @author 		Vulcan YJX <vulcanai@163.com> 
+//! @author 		Vulcan YJX <vulcanai@163.com>
 //! @created		2022-06-07
 //! @last-modified 	2022-06-10
 //! @brief			The main serial port class.
 
 #pragma once
-
+#include <cstdint>
 
 // System headers
 #include <string>
@@ -57,7 +57,7 @@ namespace VulcanSerial {
             B_CUSTOM, // Placeholder
         };
 
-        /// \brief      Enumeration of all the valid num. of data bits. Must align with the options 
+        /// \brief      Enumeration of all the valid num. of data bits. Must align with the options
         ///                 provided in termbits.h, i.e. CS5, CS6, CS7 and CS8.
         enum class NumDataBits {
             FIVE,
@@ -85,9 +85,9 @@ namespace VulcanSerial {
 
     /// \brief		SerialPort object is used to perform rx/tx serial communication.
     class SerialPort {
-            
+
              private:
-                 
+
             /// \brief      Sets the read timeout (in milliseconds)/blocking mode.
             /// \details    Only call when state != OPEN. This method manupulates VMIN and VTIME.
             /// \param      timeout_ms  Set to -1 to infinite timeout, 0 to return immediately with any data (non
@@ -95,7 +95,7 @@ namespace VulcanSerial {
             ///             be rounded to the nearest 100ms (a Linux API restriction). Maximum value limited to
             ///             25500ms (another Linux API restriction).
             void SetTimeout(int32_t timeout_ms);
-            
+
             /// \brief		Configures the tty device as a serial port.
             /// \warning    Device must be open (valid file descriptor) when this is called.
             void ConfigureTermios();
@@ -205,15 +205,15 @@ namespace VulcanSerial {
             void Write(const std::string& data);
 
             void Write(const uint8_t *data, size_t length);
-            
+
             void WriteChar(const unsigned char c);
-            
+
             /// \brief		Sends a binary message over the com port.
             /// \param		data		The data that will be written to the COM port.
             /// \throws		VulcanSerial::Exception if state != OPEN.
             void WriteBinary(const std::vector<uint8_t>& data);
 
-            
+
             /// \brief		Use to read text from the COM port.
             /// \param		data		The object the read characters from the COM port will be saved to.
             /// \param      wait_ms     The amount of time to wait for data. Set to 0 for non-blocking mode. Set to -1
@@ -238,7 +238,7 @@ namespace VulcanSerial {
             /// \returns        The state of the serial port
             State GetState();
 
-    
+
         };
 
 }  // namespace VulcanSerial
