@@ -40,9 +40,9 @@
 
 | Installation method | Supported platform[s] | Development Docs    | Official website                         |
 | ------------------- | --------------------- | ------------------- | ---------------------------------------- |
-| Source              | Linux , ros-foxy      | [DIABLO 开发手册](https://diablo-sdk-docs.readthedocs.io/en/latest/index.html) | [Direct drive](https://directdrive.com/) |
+| Source              | Linux , ros2-humble/ros2-jazzy      | [DIABLO 开发手册](https://diablo-sdk-docs.readthedocs.io/en/latest/index.html) | [Direct drive](https://directdrive.com/) |
 
-**您可以在大多数 `Linux` 设备中,编译我们的 SDK 源码。或者在支持 ros-foxy 的设备中直接编译我们提供的 ros 包，注意编译之前需要做[重新配置串口映射](https://diablo-sdk-docs.readthedocs.io/en/latest/pages/Installation/installing-sdk-on-pi.html)，到达切换硬件设备。**
+**您可以在大多数 `Linux` 设备中,编译我们的 SDK 源码。或者在支持 humble/jazzy 的设备中直接编译我们提供的 ros2 包，注意编译之前需要做[重新配置串口映射](https://diablo-sdk-docs.readthedocs.io/en/latest/pages/Installation/installing-sdk-on-pi.html)，到达切换硬件设备。**
 
 
 ## Quick Start 快速开始
@@ -66,7 +66,7 @@ mkdir -p ~/diablo_ws/src
 cd ~/diablo_ws/src
 
 #clone API source code
-git clone -b basic https://github.com/DDTRobot/diablo_ros2.git
+git clone -b basic https://github.com/chenzhaoqiJM/diablo_ros2.git
 
 cd ~/diablo_ws
 colcon build
@@ -76,7 +76,7 @@ source install/setup.bash
 ros2 run diablo_ctrl diablo_ctrl_node
 
 #run controller python script
-ros2 run diablo_teleop teleop_node 
+ros2 run diablo_teleop teleop_node
 ```
 
 2. 完整版编译
@@ -92,9 +92,9 @@ mkdir -p ~/diablo_ws/src
 cd ~/diablo_ws/src
 
 #clone API source code
-git clone https://github.com/DDTRobot/diablo_ros2.git
+git clone https://github.com/chenzhaoqiJM/diablo_ros2.git
 cd ~/diablo_ws
-rosdep install -i --from-path src --rosdistro foxy -y
+rosdep install -i --from-path src --rosdistro humble -y
 
 colcon build
 source install/setup.bash
@@ -103,7 +103,7 @@ source install/setup.bash
 ros2 run diablo_ctrl diablo_ctrl_node
 
 #run controller python script
-ros2 run diablo_teleop teleop_node 
+ros2 run diablo_teleop teleop_node
 ```
 
 ## Example 例子
@@ -155,14 +155,14 @@ c：跳跃模式。Jump mode
 ### 1.diablo_ctrl_node
 diablo_ctrl_node节点包括它发布的Topic、订阅的Topic以便其他节点能够正确地与其交互。
 ### 2.可订阅的Topic接口
-**Topic 名称:**  
+**Topic 名称:**
 ```
 /diablo/MotionCmd
 /diablo/sensor/Battery
 /diablo/sensor/Body_state
 /diablo/sensor/Imu
 /diablo/sensor/ImuEuler
-/diablo/sensor/Motors 
+/diablo/sensor/Motors
 ```
 ### 3.控制API
 diablo控制封装成ros2 topic 形式让客户端能控制机器人运行服务
@@ -206,7 +206,7 @@ msg->mode_mark = true;
 电机API用于获取六个电机的状态及腿长
 #### 明细
 ##### 功能概况：读取六个电机状态信息及左右腿长
-##### Topic :```/diablo/sensor/Motors``` 
+##### Topic :```/diablo/sensor/Motors```
 ##### Msg Type s-e：```motion_msgs/msg/LegMotors```
 ##### 命令示例：```ros2 topic echo /diablo/sensor/Motors```
 ##### 字段描述:
@@ -217,7 +217,7 @@ msg->mode_mark = true;
 * iq:  电流，单位A;
 * leg_length: 腿长，单位m;
 ---
-### 6.电源系统API 
+### 6.电源系统API
 电源系统的API只能对电池信息等信息数据查看
 #### 明细
 #### 功能概况：订阅Topic反馈电源信息
@@ -230,7 +230,7 @@ msg->mode_mark = true;
 * current: 母线电流 ,单位A;
 * percentage: 剩余电量
 ---
-### 7.机器人状态信息 
+### 7.机器人状态信息
 机器人状态信息反馈如异常、未初始化等等，可用于自查故障、警告等问题
 #### 明细
 #### 功能概况：订阅Topic反馈电源信息
@@ -246,12 +246,12 @@ msg->mode_mark = true;
 #### 状态代码
 * ctrl_mode_msg = 1 ; sdk 控制控制权限模式
 * robot_mode_msg = 2; 匍匐状态
-* robot_mode_msg = 3 ; 站立状态 
+* robot_mode_msg = 3 ; 站立状态
 * robot_mode_msg = 4 ; 站立状态过渡到匍匐状态
 * robot_mode_msg = 5 ; 匍匐状态过渡到站立状态
 
 * error_msg = 2064384 ; 6个电机断连，如有其他状态码反馈DDT FAE 协助诊断解决，warning_msg 状态码 亦如此。
---- 
+---
 
 ## FAQ
 * [1 问题]
