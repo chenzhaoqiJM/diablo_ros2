@@ -27,7 +27,7 @@ namespace OSDK{
 class HAL
 {
 public:
-    /** 
+    /**
      * @brief get transmission packed sequence number
      * @note  NON-API FUNCTION
      */
@@ -36,8 +36,8 @@ public:
         return serial_seq;
     }
 
-    /** 
-     * @brief get data pointer to received pack 
+    /**
+     * @brief get data pointer to received pack
      * @note  NON-API FUNCTION
      */
     void* getRXData(void)
@@ -45,8 +45,8 @@ public:
         return rx_data;
     }
 
-    /** 
-     * @brief get cmd set to received pack 
+    /**
+     * @brief get cmd set to received pack
      * @note  NON-API FUNCTION
      */
     uint8_t getRXCmdSet(void)
@@ -54,8 +54,8 @@ public:
         return *((uint8_t*)rx_data - 2);
     }
 
-    /** 
-     * @brief get cmd id to received pack 
+    /**
+     * @brief get cmd id to received pack
      * @note  NON-API FUNCTION
      */
     uint8_t getRXCmdID(void)
@@ -63,7 +63,7 @@ public:
         return *((uint8_t*)rx_data - 1);
     }
 
-    /** 
+    /**
      * @brief get ACK value
      * @note  NON-API FUNCTION
      */
@@ -85,21 +85,21 @@ public:
      * @brief format serial data
      * @note NON-API FUNCTION
      */
-    void serialPackData(const OSDK_Uart_Header_t& header, 
-        const uint8_t cmd_set, const uint8_t cmd_id, 
+    void serialPackData(const OSDK_Uart_Header_t& header,
+        const uint8_t cmd_set, const uint8_t cmd_id,
         const void* data, const uint32_t data_len);
 
-    /** 
+    /**
      * @brief process serial transmission of generic SDK message in non-blocking mode
      * @note  NON-API FUNCTION
      * @return 0: successfully send \n
      *         1: multiplexer wait timeout(most possible reason is bandwidth full) \n
      */
-    virtual uint8_t serialSend(const OSDK_Uart_Header_t& header, 
-        const uint8_t cmd_set, const uint8_t cmd_id, 
+    virtual uint8_t serialSend(const OSDK_Uart_Header_t& header,
+        const uint8_t cmd_set, const uint8_t cmd_id,
         const void* data, const uint32_t data_len) = 0;
-    
-    /** 
+
+    /**
      * @brief process serial transmission of generic SDK message, and wait for ack packet
      * @note  NON-API FUNCTION
      * @return 0: successfully send \n
@@ -107,22 +107,22 @@ public:
      *         2: ack packet wait timeout \n
      */
     uint8_t serialSend_ack(const OSDK_Uart_Header_t& header, uint16_t& ack,
-        const uint8_t cmd_set, const uint8_t cmd_id, 
+        const uint8_t cmd_set, const uint8_t cmd_id,
         const void* data, const uint32_t data_len);
 
     /**
-     * @brief       serial wait receive data 
+     * @brief       serial wait receive data
      * @param[in]   cmd_set cmd set value of packet to wait
      * @param[in]   cmd_id  cmd id value of packet to wait
      * @note        NON-API FUNCTION
      * @return      pointer to data packet, NULL if no packet received in 100ms
      */
-    void* serialWaitRXDataS(std::unique_lock<std::mutex>& lock, 
+    void* serialWaitRXDataS(std::unique_lock<std::mutex>& lock,
         const uint8_t cmd_set, const uint8_t cmd_id);
 
     /**
      * @brief       get SDK time stamp
-     * @return      a double-precision number indicates seconds elasped from the start of SDK 
+     * @return      a double-precision number indicates seconds elasped from the start of SDK
      */
     double getTimeStamp(void)
     {
@@ -131,7 +131,7 @@ public:
     }
 
 protected:
-    /** 
+    /**
      * @brief serial receive thread function
      * @note  NON-API FUNCTION
      */
@@ -189,11 +189,11 @@ protected:
 
 //receive handling
     std::thread*                   serial_rx_thd;
-    
+
     std::condition_variable   serial_rx_ack_cond;
     std::condition_variable  serial_rx_data_cond;
 
-    /** 
+    /**
      * @brief serial transmission multiplexing thread function
      * @note  NON-API FUNCTION
      */
@@ -225,7 +225,7 @@ public:
      *         2 start heartbeat error \n
      *         3 initialization port fail \n
      */
-    uint8_t init(const std::string dev = "/dev/ttyAMA0", const int baud = 460800);
+    uint8_t init(const std::string dev = "/dev/ttyACM0", const int baud = 460800);
 
     ~HAL_Pi()
     {
@@ -238,11 +238,11 @@ public:
      * @return 0: successfully send \n
      *         1: multiplexer wait timeout(most possible reason is bandwidth full) \n
      */
-    uint8_t serialSend(const OSDK_Uart_Header_t& header, 
-        const uint8_t cmd_set, const uint8_t cmd_id, 
+    uint8_t serialSend(const OSDK_Uart_Header_t& header,
+        const uint8_t cmd_set, const uint8_t cmd_id,
         const void* data, const uint32_t data_len);
 
-    /** 
+    /**
      * @brief serial receive thread function
      * @note  NON-API FUNCTION
      */
